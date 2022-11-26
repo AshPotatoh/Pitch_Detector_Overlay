@@ -2,6 +2,7 @@ Pitch Detector Overlay
 ======================
 ###### Because yes, I wasn't creative enough for a better name.
 
+![143563889 61_image](https://user-images.githubusercontent.com/75105627/204110684-ed8b6a85-2b54-4b41-9629-4749a5930e41.png)
 
 # What is this?
 
