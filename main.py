@@ -1,13 +1,15 @@
 import aubio
 import numpy as num
 import pyaudio
+from pyaudio import PyAudio
 import vlc
 import time
 import tkinter as tk
-from tkinter import Entry, Tk, Toplevel, Canvas, Label
+from tkinter import Button, Entry, Tk, Toplevel, Canvas, Label
 import tkinter.font as font
 import threading
-import winsound
+import wave
+import flask
 
 
 ######PARAMS
@@ -21,7 +23,77 @@ PERIOD_SIZE_IN_FRAME    = HOP_SIZE
 
 averagePitch = 0
 
+frames = []
+yes_no = True
+please_stop = False
+is_playing = False
+
+
+
+def playback():
+   
+   print("Recording Started")
+   CHUNK = 1024
+   FORMAT = pyaudio.paInt16
+   CHANNELS = 2
+   RATE = 44100
+   RECORD_SECONDS = 5
+   WAVE_OUTPUT_FILENAME = "output.wav"
+
+   p = pyaudio.PyAudio()
+   print("Playback 1")
+   stream = p.open(format=FORMAT,
+                  channels=CHANNELS,
+                  rate=RATE,
+                  input=True,
+                  frames_per_buffer=CHUNK)
+
+   print("Playback 1")
+
+   global frames
+   global yes_no
+   still_running = True
+   while still_running:
+      
+      data = stream.read(CHUNK)
+      frames.append(data)
+      #print(len(frames))
+
+      if len(frames) > 1000:
+         del frames[:]
+         print("Playback 1")
+
+      if yes_no == False:
+         print(yes_no)
+         print("saving")
+         last_five = frames[-216:]
+         waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+         waveFile.setnchannels(CHANNELS)
+         waveFile.setsampwidth(p.get_sample_size(FORMAT))
+         waveFile.setframerate(RATE)
+         waveFile.writeframes(b''.join(last_five))
+         waveFile.close()
+         yes_no = True
+         print(yes_no)
+      
+      if win.state:
+         pass
+      else:
+         still_running = False
+      
+      
+   print("* done recording")
+
+   stream.stop_stream()
+   stream.close()
+   p.terminate()
+
+
 def oneSecond(listy):
+   
+   
+
+
    pListSum = sum(listy)
    pListLen = len(listy)
    average = 0
@@ -62,34 +134,35 @@ def pitch_detector(mic_index):
     mic = pA.open(format=FORMAT, channels=CHANNELS,
         rate=SAMPLE_RATE, input=True, input_device_index=mic_index,
         frames_per_buffer=PERIOD_SIZE_IN_FRAME)
-
+   
     pDetection = aubio.pitch(METHOD, BUFFER_SIZE,
         HOP_SIZE, SAMPLE_RATE)
     pDetection.set_unit("Hz")
 
+    
     pDetection.set_silence(-35)
     count = 0
     messup = 0
     pitch_average = []
+   
+
 
     while True:
-        
-
         data = mic.read(PERIOD_SIZE_IN_FRAME)
-
+        
         samples = num.fromstring(data,
             dtype=aubio.float_type)
-
+        
         pitch = pDetection(samples)[0]
 
         volume = num.sum(samples**2)/len(samples)
-
+        
         volume = "{:6f}".format(volume)
-
+        
         pitch_average.append(pitch)
         bananas = 5
         if len(pitch_average) > 30:
-         
+          
          average = [item for item in pitch_average if item >= 10.0 and item <= 500.0]
          
          global oneSecondAverage
@@ -105,9 +178,11 @@ def pitch_detector(mic_index):
          pitch_average.clear()
          average.clear()
          print(count)
+        
          if floatAverage < 180.0 and floatAverage > 135.0:
             messup += 1
-            
+            global yes_no
+            print("is actually " + str(yes_no))
             print(messup + pitch)
             
             if messup > 4:
@@ -117,6 +192,7 @@ def pitch_detector(mic_index):
                d.audio_set_volume(100)
                d.play()
                time.sleep(0.4)
+               yes_no = False
                messuphz.config(text=f'Last flub: {str(int(floatAverage)) + "Hz"}', bg="black")
                messup = 0
                
@@ -128,8 +204,6 @@ def pitch_detector(mic_index):
             count = 0
             messup = 0
          count += 1
-
-
 
 
 
@@ -165,6 +239,8 @@ pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="
 pitchhz.grid(column=1, row=1, padx=(0,0))
 messuphz = Label(win, text="last flub:",font='Helvetica 16 bold', bg='black', foreground="white")
 messuphz.grid(column=2,row=1, padx=10)
+# exit_button = Button(win, text="Exit", command=win.quit)
+# exit_button.grid(column=3, row=1, padx=10)
 
 
 #button = tk.Button(win, text='start', .pack(pady=40)
