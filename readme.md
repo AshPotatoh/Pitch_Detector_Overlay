@@ -19,7 +19,7 @@ We all know that pitch is only one part of the puzzle, but it is also the hardes
 
 Clone the repo and extract the files.
 
-open a terminal and go into the folder (On win 11 shift+right click, then open terminal here).
+open a terminal and go into the folder (On win 11 right click in the folder, then click terminal).
 Type pip install -r requirements.txt
 
 Then run the main.py file with the command: 
