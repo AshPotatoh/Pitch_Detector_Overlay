@@ -9,8 +9,6 @@ from tkinter import Button, Entry, Tk, Toplevel, Canvas, Label
 import tkinter.font as font
 import threading
 import wave
-import flask
-
 
 def param_builder():
 
