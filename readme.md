@@ -27,3 +27,6 @@ Then run the main.py file with the command:
 python main.py
 
 It will ask you what Hz you want to be your minimum. If you talk below it, it'll track it, and after talking below it for a little bit, it'll beep at you. 
+
+
+Alternatively, you can download the zip'd exe [here]("https://github.com/AshPotatoh/Pitch_Detector_Overlay/releases/tag/Release")
