@@ -6,7 +6,7 @@ Pitch Detector Overlay
 
 # What is this?
 
-Somethings in life are easy. Others however, take time, practice and patiences. This app was developed to help anyone looking to change the pitch of their voice, and make it a perminent addition. This would typically be used by a trans person trying to make their voice sound more feminine, or masculine. 
+Somethings in life are easy. Others however, take time, practice and patiences. This app was spaghetti coded together to help anyone looking to change the pitch of their voice, and make it a more perminent addition. This would typically be used by a trans person trying to make their voice sound more feminine, or masculine. 
 
 
 # How does it work?
