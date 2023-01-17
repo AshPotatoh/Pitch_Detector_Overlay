@@ -73,7 +73,7 @@ def playback():
       
       data = stream.read(CHUNK)
       frames.append(data)
-      #print(len(frames))
+
 
       if len(frames) > 1000:
          del frames[:]
@@ -241,8 +241,7 @@ win_y = 1080 + 300
 
 win.attributes('-transparentcolor', 'black', '-topmost', 1)
 win.config(bg='black')
-win.bg = Canvas(win,width=400, height=300, bg='black')
-#win.wm_attributes('-fullscreen', 'True')
+win.bg = Canvas(win,width=400, height=300, bg='b
 win.wm_attributes("-disabled", True)
 win.geometry('480x300+%s+0' %screen_position)
 
@@ -251,15 +250,12 @@ e.config(highlightbackground= "green", highlightcolor="green")
 e.pack
 win.overrideredirect(1)
 pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="white", highlightbackground="black", command=threading.Thread(target=pitch_detector, args=(1, targethz,)).start(), )
-#pitchhz['font'] = font.Font(size=16)
+
 pitchhz.grid(column=1, row=1, padx=(0,0))
 messuphz = Label(win, text="last flub:",font='Helvetica 16 bold', bg='black', foreground="white")
 messuphz.grid(column=2,row=1, padx=10)
-# exit_button = Button(win, text="Exit", command=win.quit)
-# exit_button.grid(column=3, row=1, padx=10)
 
 
-#button = tk.Button(win, text='start', .pack(pady=40)
 win.mainloop()
 
 
