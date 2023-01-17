@@ -15,5 +15,6 @@ The overlay currently displays on the top left of your screen. It will display o
 
 We all know that pitch is only one part of the puzzle, but it is also the hardest part to make a habit. It takes a lot of time to make that new pitch your default. This app should help with other exercises you've found to help with things such as resonance and inflection.
 
+# How to use
 
-The program currently has the Flub alarm at 180hz, the low end for feminine voices. Eventually, I would like this application to be a tray application that allows the user to change settings via a few sliding bars. 
+Clone the repo and extract the files. The one you want to run with Python 3 is the main.py file. It will ask you what Hz you want to be your minimum. If you talk below it, it'll track it, and after talking below it for a little bit, it'll beep at you. 
