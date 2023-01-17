@@ -1,0 +1,4 @@
+aubio==0.4.9
+numpy==1.23.5
+PyAudio==0.2.12
+python_vlc==3.0.18121
