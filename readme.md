@@ -17,4 +17,13 @@ We all know that pitch is only one part of the puzzle, but it is also the hardes
 
 # How to use
 
-Clone the repo and extract the files. The one you want to run with Python 3 is the main.py file. It will ask you what Hz you want to be your minimum. If you talk below it, it'll track it, and after talking below it for a little bit, it'll beep at you. 
+Clone the repo and extract the files.
+
+open a terminal and go into the folder (On win 11 shift+right click, then open terminal here).
+Type pip install -r requirements.txt
+
+Then run the main.py file with the command: 
+
+python main.py
+
+It will ask you what Hz you want to be your minimum. If you talk below it, it'll track it, and after talking below it for a little bit, it'll beep at you. 
