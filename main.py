@@ -22,9 +22,11 @@ def param_builder():
         param_builder()
     else:
         print("Target set to " + str(target_hz))
-        return target_hz
+        print('\nHow far would you like the overlay to be from the left (Suggested size 400). Only whole numbers please. There is no need to add px to the end.\n')
+        screen_position = input("how far from the left? ")
+        return target_hz, screen_position
 
-targethz = param_builder()
+targethz, screen_position = param_builder()
 
 ######PARAMS
 BUFFER_SIZE             = 2048
@@ -242,7 +244,7 @@ win.config(bg='black')
 win.bg = Canvas(win,width=400, height=300, bg='black')
 #win.wm_attributes('-fullscreen', 'True')
 win.wm_attributes("-disabled", True)
-win.geometry('480x300+400+0')
+win.geometry('480x300+%s+0' %screen_position)
 
 e = Entry(highlightthickness=2)
 e.config(highlightbackground= "green", highlightcolor="green")
