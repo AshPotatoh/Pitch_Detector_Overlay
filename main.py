@@ -12,6 +12,22 @@ import wave
 import flask
 
 
+def param_builder():
+
+    print("Welcome to the Pitch Detector Overlay!\n")
+    target_hz = input("What is the minimum Hz you would like to aim for? (Whole numbers only) ")
+    target_hz = float(target_hz)
+    print(type(target_hz))
+
+    if target_hz.is_integer() == False:
+        print("error whole numbers only. Use numbers like 160, 180, 220, etc")
+        param_builder()
+    else:
+        print("Target set to " + str(target_hz))
+        return target_hz
+
+targethz = param_builder()
+
 ######PARAMS
 BUFFER_SIZE             = 2048
 CHANNELS                = 1
@@ -129,7 +145,7 @@ def update_timer(t_bool):
 
 
 
-def pitch_detector(mic_index):
+def pitch_detector(mic_index, target):
     pA = pyaudio.PyAudio()
     mic = pA.open(format=FORMAT, channels=CHANNELS,
         rate=SAMPLE_RATE, input=True, input_device_index=mic_index,
@@ -178,8 +194,8 @@ def pitch_detector(mic_index):
          pitch_average.clear()
          average.clear()
          print(count)
-        
-         if floatAverage < 180.0 and floatAverage > 135.0:
+         target = float(target)
+         if floatAverage < target and floatAverage > 110.0:
             messup += 1
             global yes_no
             print("is actually " + str(yes_no))
@@ -234,7 +250,7 @@ e = Entry(highlightthickness=2)
 e.config(highlightbackground= "green", highlightcolor="green")
 e.pack
 win.overrideredirect(1)
-pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="white", highlightbackground="black", command=threading.Thread(target=pitch_detector, args=(1,)).start(), )
+pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="white", highlightbackground="black", command=threading.Thread(target=pitch_detector, args=(1, targethz,)).start(), )
 #pitchhz['font'] = font.Font(size=16)
 pitchhz.grid(column=1, row=1, padx=(0,0))
 messuphz = Label(win, text="last flub:",font='Helvetica 16 bold', bg='black', foreground="white")
