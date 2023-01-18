@@ -13,7 +13,7 @@ import wave
 def param_builder():
 
     print("Welcome to the Pitch Detector Overlay!\n")
-    target_hz = input("What is the minimum Hz you would like to aim for? (Whole numbers only) ")
+    target_hz = input("What is the minimum Hz you would like to aim for? (Whole numbers only). If unsure and trying to make your voice more feminine use 180.  ")
     target_hz = float(target_hz)
     print(type(target_hz))
 
@@ -24,9 +24,18 @@ def param_builder():
         print("Target set to " + str(target_hz))
         print('\nHow far would you like the overlay to be from the left (Suggested size 400). Only whole numbers please. There is no need to add px to the end.\n')
         screen_position = input("how far from the left? ")
-        return target_hz, screen_position
+        print("Please select your microphone by typing its corresponding number from the list below. ")
+        p = pyaudio.PyAudio()
+        info = p.get_host_api_info_by_index(0)
+        numdevices = info.get('deviceCount')
 
-targethz, screen_position = param_builder()
+        for i in range(0, numdevices):
+           if (p.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+              print("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
+        mic_index = input("Which input would you like? ")
+        return target_hz, screen_position, mic_index
+
+targethz, screen_position, mic_index = param_builder()
 
 ######PARAMS
 BUFFER_SIZE             = 2048
@@ -73,7 +82,7 @@ def playback():
       
       data = stream.read(CHUNK)
       frames.append(data)
-
+      #print(len(frames))
 
       if len(frames) > 1000:
          del frames[:]
@@ -241,7 +250,7 @@ win_y = 1080 + 300
 
 win.attributes('-transparentcolor', 'black', '-topmost', 1)
 win.config(bg='black')
-win.bg = Canvas(win,width=400, height=300, bg='b
+win.bg = Canvas(win,width=400, height=300, bg='black')
 win.wm_attributes("-disabled", True)
 win.geometry('480x300+%s+0' %screen_position)
 
@@ -249,7 +258,7 @@ e = Entry(highlightthickness=2)
 e.config(highlightbackground= "green", highlightcolor="green")
 e.pack
 win.overrideredirect(1)
-pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="white", highlightbackground="black", command=threading.Thread(target=pitch_detector, args=(1, targethz,)).start(), )
+pitchhz = Label(win, text='', font='Helvetica 16 bold', bg='black', foreground="white", highlightbackground="black", command=threading.Thread(target=pitch_detector, args=(int(mic_index), targethz,)).start(), )
 
 pitchhz.grid(column=1, row=1, padx=(0,0))
 messuphz = Label(win, text="last flub:",font='Helvetica 16 bold', bg='black', foreground="white")
